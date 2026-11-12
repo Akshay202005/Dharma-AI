@@ -1,12 +1,13 @@
 import {Routes, Route, Navigate} from 'react-router'
 import Signin from './pages/Signin'
 import Signup from './pages/Signup'
+import ForgotPassword from './pages/ForgotPassword'
 import About from './pages/About'
 import Home from './pages/Home'
 import Chat from './pages/Chat'
 import Contact from './pages/Contact'
 import Profile from './pages/Profile'
-import ForgotPassword from './pages/ForgotPassword'
+import Settings from './pages/Settings'
 import { useSelector } from 'react-redux'
 import useGetCurrentUser from './hooks/useGetCurrentUser'
 
@@ -47,6 +48,7 @@ const App = () => {
       {/* Protected Routes */}
       <Route path="/chat/:chatId?" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
