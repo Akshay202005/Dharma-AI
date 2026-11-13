@@ -52,8 +52,8 @@ const Signin = () => {
     };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[url('/images/BG_Cosmic.png')] bg-cover bg-center bg-no-repeat">
-        <div className={`bg-[#03060C] rounded-xl shadow-lg w-full max-w-md p-3 text-white border-2 border-[#6D6C6C]`}>
+    <div className="min-h-dvh w-full flex items-center justify-center p-4 bg-[url('/images/BG_Cosmic.png')] bg-cover bg-center bg-no-repeat">
+        <div className={`bg-[#03060C] rounded-xl shadow-lg w-full max-w-md p-5 text-white border-2 border-[#6D6C6C]`}>
             <img src="/images/Logo.png" alt="Dharma AI Logo" className='w-12 h-12'/>
             <h1 className="text-3xl font-bold mb-2 text-center">
                 Sign In
@@ -62,11 +62,11 @@ const Signin = () => {
             {/* email */}
 
             <div className="mb-4">
-                <label htmlFor="email" className="block text-grey-700 font-medium mb-1">
+                <label htmlFor="email" className="block font-medium mb-1">
                     Email
                 </label>
                 <input
-                    type="text" id="email" placeholder="Enter your email"
+                    type="email" id="email" placeholder="Enter your email" autoComplete="email"
                     className="w-full px-3 py-2 border rounded-lg bg-transparent border-[#6D6C6C] text-white focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={(e)=>setEmail(e.target.value)} value={email} required
                 />
             </div>
@@ -74,19 +74,26 @@ const Signin = () => {
             {/* password */}
 
             <div className="mb-4">
-                <label htmlFor="password" className="block text-grey-700 font-medium mb-1">
+                <label htmlFor="password" className="block font-medium mb-1">
                     Password
                 </label>
                 <div className="relative">
                     <input
-                        type={showPassword ? "text" : "password"} id="password" placeholder="Enter your password"
+                        type={showPassword ? "text" : "password"} id="password" placeholder="Enter your password" autoComplete="current-password"
                         className="w-full px-3 py-2 pr-10 border rounded-lg bg-transparent border-[#6D6C6C] text-white focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={(e)=>setPassword(e.target.value)} value={password} required
                     />
-                    <button type='button' className='absolute right-3 cursor-pointer top-1/2 -translate-y-1/2 text-gray-500' onClick={() => setShowPassword(prev => !prev)}>{!showPassword ?     <FaRegEye /> : <FaRegEyeSlash />}</button>
+                    <button
+                        type='button'
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                        className='absolute right-1 cursor-pointer top-1/2 -translate-y-1/2 p-2 text-gray-500'
+                        onClick={() => setShowPassword(prev => !prev)}
+                    >
+                        {!showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+                    </button>
                 </div>
             </div>
 
-            {/* sign up button */}
+            {/* sign in button */}
             
             <div className="mb-4 text-center">
                 <button className="cursor-pointer px-3 py-2 bg-transparent text-[#FFD76A] font-semibold justify-center border-2 border-[#A87A22] rounded-lg hover:bg-[#A87A22] hover:text-[#03060C] focus:outline-none focus:ring-2 focus:ring-[#A87A22]"
@@ -98,32 +105,35 @@ const Signin = () => {
             {err && <p className='text-red-500 text-center my-2.5'>*{err}</p>}
 
             <div className="mb-4 text-center">
-                <button type='button' className="text-sm text-[#FFD76A] hover:underline" onClick={() => navigate("/forgot-password")}>
+                <button type='button' className="text-sm text-[#FFD76A] hover:underline py-1" onClick={() => navigate("/forgot-password")}>
                     Forgot password?
                 </button>
             </div>
             
             {/* or */}
             
-            <div className="text-center">
-                <p className="text-[#6D6C6C] opacity-50">
-                    ------------------------ OR ------------------------
-                </p>
+            <div className="flex items-center gap-3 my-2">
+                <span className="flex-1 h-px bg-[#6D6C6C]/50"></span>
+                <span className="text-[#6D6C6C] text-sm">OR</span>
+                <span className="flex-1 h-px bg-[#6D6C6C]/50"></span>
             </div>
             
-            {/* sign up Google button */}
+            {/* sign in Google button */}
             <div className="mb-4 text-center">
-                <p className="inline-flex items-center gap-1 px-3 py-2 bg-transparent text-white font-semibold justify-center rounded-lg cursor-pointer hover:underline hover:decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={handleGoogleAuth}
+                <button
+                    type='button'
+                    className="inline-flex items-center gap-1 px-3 py-2.5 bg-transparent text-white font-semibold justify-center rounded-lg cursor-pointer hover:underline hover:decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onClick={handleGoogleAuth}
                 >
                     <span>Continue with</span>
                     <span className="inline-flex items-center">
                         <FcGoogle className="text-lg" />
                         <span>oogle</span>
                     </span>
-                </p>    
+                </button>
             </div>
             
-            {/* sign in link */}
+            {/* sign up link */}
             <div className="text-center">
                 <p className="text-[#6D6C6C]">
                     <span className='opacity-65'>Don't have an account?</span> <button type='button' className="text-[#FFD76A] cursor-pointer hover:underline" onClick={() => navigate("/signup")}>Sign Up</button>

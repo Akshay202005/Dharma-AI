@@ -19,7 +19,7 @@ const PasswordInput = ({ id, placeholder, value, onChange, autoComplete }) => {
       <button
         type="button"
         aria-label={show ? "Hide password" : "Show password"}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+        className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-gray-400 cursor-pointer"
         onClick={() => setShow((prev) => !prev)}
       >
         {show ? <FaRegEyeSlash /> : <FaRegEye />}

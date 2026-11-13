@@ -61,10 +61,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[url('/images/BG_Cosmic.png')] bg-cover bg-center bg-no-repeat">
+    <div className="min-h-dvh w-full flex items-center justify-center p-4 bg-[url('/images/BG_Cosmic.png')] bg-cover bg-center bg-no-repeat">
       <form
         onSubmit={handleSubmit}
-        className="bg-[#03060C] rounded-xl shadow-lg w-full max-w-md p-3 text-white border-2 border-[#6D6C6C]"
+        className="bg-[#03060C] rounded-xl shadow-lg w-full max-w-md p-5 text-white border-2 border-[#6D6C6C]"
       >
         <img src="/images/Logo.png" alt="Dharma AI Logo" className="w-12 h-12" />
         <h1 className="text-3xl font-bold mb-2 text-center">Forgot Password</h1>
@@ -87,7 +87,9 @@ const ForgotPassword = () => {
 
         {step === 2 && (
           <>
-            <p className="text-center text-sm text-gray-400 mb-4">Enter the 4-digit OTP sent to {email}. It expires in 5 minutes.</p>
+            <p className="text-center text-sm text-gray-400 mb-4">
+              Enter the 4-digit OTP sent to <span className="break-all">{email}</span>. It expires in 5 minutes.
+            </p>
             <div className="mb-4">
               <label htmlFor="otp" className="block font-medium mb-1">OTP</label>
               <input type="text" id="otp" placeholder="Enter OTP" inputMode="numeric" maxLength={4}

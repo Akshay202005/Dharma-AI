@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { RxHamburgerMenu } from 'react-icons/rx'
-import { FiSearch, FiSend, FiMic, FiPlusCircle, FiTrash2, FiX, FiVolume2, FiVolumeX } from 'react-icons/fi'
+import { FiSearch, FiSend, FiMic, FiPlusCircle, FiTrash2, FiX, FiVolume2, FiVolumeX, FiUser, FiMessageSquare } from 'react-icons/fi'
 import useSpeech from '../hooks/useSpeech'
 import useLimit from '../hooks/useLimit'
 import Nav from '../components/Nav'
@@ -20,6 +20,7 @@ const Chat = () => {
   const { chats, activeChatId, messages } = useSelector((state) => state.chat)
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [showKrishna, setShowKrishna] = useState(false) // phones/tablets: false = chat view, true = Krishna view
   const [showSearch, setShowSearch] = useState(false)
   const [search, setSearch] = useState('')
   const [input, setInput] = useState('')
@@ -167,7 +168,17 @@ const Chat = () => {
   }
 
   // ---------- sidebar actions ----------
-  const handleNewChat = () => { stop(); navigate('/chat') }
+  const handleNewChat = () => {
+    stop()
+    navigate('/chat')
+    if (window.innerWidth < 768) setSidebarOpen(false) // overlay on phones: close it
+  }
+
+  const handleOpenChat = (id) => {
+    stop()
+    navigate(`/chat/${id}`)
+    if (window.innerWidth < 768) setSidebarOpen(false) // overlay on phones: close it
+  }
 
   const handleDeleteChat = async (e, id) => {
     e.stopPropagation() // don't open the chat we are deleting
@@ -181,7 +192,7 @@ const Chat = () => {
   }
 
   return (
-    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-15'>
+    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-4 sm:px-8 lg:px-15'>
 
       <Nav />
 
@@ -189,7 +200,7 @@ const Chat = () => {
 
         {/* Sidebar (open) or just the hamburger (closed) */}
         {sidebarOpen ? (
-          <aside className='w-64 shrink-0 h-[calc(100vh-15rem)] min-h-105 flex flex-col bg-[#03060C]/90 border-2 border-[#6D6C6C] rounded-2xl p-4 text-white'>
+          <aside className='fixed left-4 top-28 z-40 md:static md:z-auto w-64 shrink-0 h-[calc(100dvh-15rem)] min-h-105 flex flex-col bg-[#03060C]/90 border-2 border-[#6D6C6C] rounded-2xl p-4 text-white'>
             <div className='flex items-center justify-between mb-5'>
               <button onClick={() => setSidebarOpen(false)} aria-label='Close sidebar' className='cursor-pointer'>
                 <RxHamburgerMenu size={24} />
@@ -227,7 +238,7 @@ const Chat = () => {
               {chats.map((c) => (
                 <li
                   key={c._id}
-                  onClick={() => { stop(); navigate(`/chat/${c._id}`) }}
+                  onClick={() => handleOpenChat(c._id)}
                   className={`group cursor-pointer flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg text-sm hover:bg-white/10 ${c._id === activeChatId ? 'bg-white/10 text-[#FFD76A]' : ''}`}
                 >
                   <span className='truncate'>{c.title}</span>
@@ -248,9 +259,19 @@ const Chat = () => {
           </button>
         )}
 
-        {/* Chat panel */}
-        <section className='flex-1 min-w-0 h-[calc(100vh-15rem)] min-h-105 flex flex-col bg-[#03060C] border-2 border-white rounded-2xl p-4 text-white'>
+        {/* Chat panel: hidden on phones/tablets while the Krishna view is open, always shown on desktop */}
+        <section className={`${showKrishna ? 'hidden lg:flex' : 'flex'} relative flex-1 min-w-0 h-[calc(100dvh-15rem)] min-h-105 flex-col bg-[#03060C] border-2 border-white rounded-2xl p-4 text-white`}>
           <h1 className='text-center text-xl underline underline-offset-4 mb-3'>Chat</h1>
+
+          {/* Swap to the Krishna view (phones/tablets only) */}
+          <button
+            type='button'
+            onClick={() => setShowKrishna(true)}
+            aria-label='Show Krishna'
+            className='lg:hidden absolute top-3 right-3 cursor-pointer text-[#FFD76A] hover:opacity-80'
+          >
+            <FiUser size={22} />
+          </button>
 
           <div className='flex-1 overflow-y-auto pr-2 flex flex-col gap-4'>
             {loadingChat && <p className='text-center text-sm text-[#9a9a9a]'>Loading conversation...</p>}
@@ -265,12 +286,12 @@ const Chat = () => {
               m.sender === 'User' ? (
                 <div key={m._id} className='flex flex-col items-end'>
                   <span className='text-[10px] text-blue-400'>You</span>
-                  <p className='max-w-[85%] text-sm text-right whitespace-pre-wrap wrap-break'>{m.content}</p>
+                  <p className='max-w-[85%] text-sm text-right whitespace-pre-wrap wrap-break-word'>{m.content}</p>
                 </div>
               ) : (
                 <div key={m._id} className='flex flex-col items-start'>
                   <span className='text-[10px] text-[#FFD76A]'>Krishna</span>
-                  <p className='max-w-[85%] text-sm whitespace-pre-wrap wrap-break'>{m.content}</p>
+                  <p className='max-w-[85%] text-sm whitespace-pre-wrap wrap-break-word'>{m.content}</p>
                   {m.reference && <span className='mt-1 text-[11px] text-[#A87A22]'>{m.reference}</span>}
                   <button
                     type='button'
@@ -294,8 +315,8 @@ const Chat = () => {
           </div>
         </section>
 
-        {/* Krishna image panel (hidden on small screens) */}
-        <section className='hidden md:block relative flex-1 min-w-0 h-[calc(100vh-15rem)] min-h-105 p-2 border-2 border-white rounded-2xl'>
+        {/* Krishna image panel: shown on phones/tablets only while the Krishna view is open, always shown on desktop */}
+        <section className={`${showKrishna ? 'block' : 'hidden'} lg:block relative flex-1 min-w-0 h-[calc(100dvh-15rem)] min-h-105 p-2 border-2 border-white rounded-2xl`}>
           <div className='w-full h-full overflow-hidden rounded-xl'>
             <img
               src='/images/Krishna.png'
@@ -311,11 +332,20 @@ const Chat = () => {
           >
             {muted ? <FiVolumeX size={20} /> : <FiVolume2 size={20} />}
           </button>
+
+          {/* Swap back to the chat view (phones/tablets only) */}
+          <button
+            type='button'
+            onClick={() => setShowKrishna(false)}
+            aria-label='Show chat'
+            className='lg:hidden absolute top-5 right-5 w-10 h-10 rounded-xl flex items-center justify-center border border-white/80 bg-black/45 text-[#FFD76A] cursor-pointer hover:bg-black/60'
+          >
+            <FiMessageSquare size={20} />
+          </button>
         </section>
       </div>
 
       {/* Input bar */}
-            {/* Input bar */}
       <div className='w-full max-w-2xl mt-5'>
         {error && <p role='alert' className='mb-2 text-center text-red-400 font-medium'>{error}</p>}
 
@@ -331,7 +361,7 @@ const Chat = () => {
               onChange={(e) => setInput(e.target.value)}
               maxLength={4000}
               placeholder='Share your problems with Krishna...'
-              className='flex-1 bg-transparent text-white text-lg placeholder:text-[#bdbdbd] focus:outline-none'
+              className='flex-1 min-w-0 bg-transparent text-white text-lg placeholder:text-[#bdbdbd] focus:outline-none'
             />
             <button
               type='button'

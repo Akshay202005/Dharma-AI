@@ -17,7 +17,7 @@ const Home = () => {
   }
 
   return (
-    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-15'>
+    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-4 sm:px-8 lg:px-15'>
       
       <Nav />
       
@@ -26,7 +26,7 @@ const Home = () => {
         {/* Dharma AI Logo */}
 
           <motion.img src="/images/Dharma-Ai.png" alt="Dharma AI" 
-            className='w-auto h-70 items-center mx-auto -mt-8'
+            className='w-auto max-w-full h-70 items-center mx-auto -mt-8'
             initial={{ opacity: 0, y:120}}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: "easeInOut" }}
@@ -35,7 +35,7 @@ const Home = () => {
         {/* Tagline */}
 
           <motion.h2
-            className='text-xl font-bold text-center text-white -mt-20'
+            className='text-lg sm:text-xl font-bold text-center text-white -mt-20'
             initial={{ opacity: 0, y:120}}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: "easeInOut" }}
@@ -52,10 +52,10 @@ const Home = () => {
             Seek clarity. Reflect deeply. Grow with timeless wisdom.
           </motion.p>
 
-          {/* Dharma AI Logo */}
+          {/* Krishna hero image */}
 
-          <motion.img src="/images/Krishna-Hero.png" alt="Dharma AI" 
-            className='w-65 h-auto items-center mx-auto'
+          <motion.img src="/images/Krishna-Hero.png" alt="Krishna" 
+            className='w-65 max-w-full h-auto items-center mx-auto'
             initial={{ opacity: 0, y:120}}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: "easeInOut" }}

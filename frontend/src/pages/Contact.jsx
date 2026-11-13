@@ -69,7 +69,7 @@ const Contact = () => {
     'w-full px-3 py-2 border rounded-lg bg-transparent border-[#6D6C6C] text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
 
   return (
-    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-15'>
+    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-4 sm:px-8 lg:px-15'>
 
       <Nav />
 
@@ -77,7 +77,7 @@ const Contact = () => {
         onSubmit={handleSubmit}
         className='w-full h-full text-[#ffffff] gap-5 p-5 bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg shadow-xl mt-20'
       >
-        <h1 className='w-full text-3xl text-center font-bold text-[#ffffff] mb-2'>
+        <h1 className='w-full text-2xl sm:text-3xl text-center font-bold text-[#ffffff] mb-2'>
           Get in touch with us
         </h1>
         <p className='text-lg text-[#ffffff] text-center mt-2 mb-6 font-medium'>

@@ -22,7 +22,7 @@ const grayBtn = 'cursor-pointer px-4 py-2 border-2 border-[#6D6C6C] rounded-lg'
 const Modal = ({ title, onClose, children }) => (
   <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4' onClick={onClose}>
     <div
-      className='w-full max-w-md bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg p-6 text-white'
+      className='w-full max-w-md max-h-[90dvh] overflow-y-auto bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg p-4 sm:p-6 text-white'
       onClick={(e) => e.stopPropagation()}
     >
       <h2 className='text-2xl font-bold mb-4'>{title}</h2>
@@ -36,7 +36,7 @@ const Row = ({ icon, label, onClick, danger = false, showArrow = false }) => (
   <button
     type='button'
     onClick={onClick}
-    className={`cursor-pointer w-full flex items-center gap-3 border-2 border-[#6D6C6C] rounded-xl px-4 py-3 font-bold text-lg hover:bg-white/5 ${
+    className={`cursor-pointer w-full flex items-center gap-3 border-2 border-[#6D6C6C] rounded-xl px-4 py-3 font-bold text-base sm:text-lg hover:bg-white/5 ${
       danger ? 'text-[#fc0e0e]' : 'text-white'
     }`}
   >
@@ -136,29 +136,29 @@ const Profile = () => {
     ) : null
 
   return (
-    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-15'>
+    <div className='w-full min-h-screen bg-[url("/images/BG_Cosmic.png")] bg-cover bg-center bg-no-repeat flex flex-col items-center py-5 px-4 sm:px-8 lg:px-15'>
 
       <Nav />
 
-      <div className='w-full h-full flex flex-col items-center justify-center gap-5 p-5 bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg shadow-xl mt-20'>
+      <div className='w-full h-full flex flex-col items-center justify-center gap-5 p-3 sm:p-5 bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg shadow-xl mt-20'>
 
-        <h1 className='w-full text-3xl font-bold text-[#ffffff] text-left pl-8'>Profile</h1>
+        <h1 className='w-full text-3xl font-bold text-[#ffffff] text-left pl-2 sm:pl-8'>Profile</h1>
 
-        <div className='w-full h-full flex items-center justify-center gap-5 p-5 bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg shadow-xl'>
+        <div className='w-full h-full flex flex-col md:flex-row items-center justify-center gap-5 p-3 sm:p-5 bg-[#03060C] border-2 border-[#6D6C6C] rounded-lg shadow-xl'>
 
           {/* left: user info */}
-          <div className='w-2/5 h-full flex flex-col items-center justify-center gap-4 border-r border-[#6D6C6C]/40 mr-8'>
+          <div className='w-full md:w-2/5 h-full flex flex-col items-center justify-center gap-4 pb-5 md:pb-0 border-b md:border-b-0 md:border-r border-[#6D6C6C]/40 md:mr-8'>
             {hasRealAvatar ? (
               <img src={avatarUrl} alt='avatar' className='w-24 h-24 rounded-full object-cover border-2 border-[#A87A22]' />
             ) : (
               <CgProfile size={50} className='text-[#FFFFFF]' />
             )}
-            <p className='text-[#FFFFFF] text-2xl font-bold'>{userData?.fullName}</p>
+            <p className='text-[#FFFFFF] text-2xl font-bold text-center break-words'>{userData?.fullName}</p>
             <p className='text-[#9a9a9a] text-lg break-all text-center'>{userData?.email}</p>
           </div>
 
           {/* right: menu */}
-          <div className='w-3/5 h-full flex flex-col items-start justify-start gap-4 p-5'>
+          <div className='w-full md:w-3/5 h-full flex flex-col items-start justify-start gap-4 p-0 md:p-5'>
             <Row icon={<FaPen />} label='Edit Profile' showArrow onClick={() => openModal('edit')} />
             <Row icon={<FaCog />} label='Settings' showArrow onClick={() => navigate('/settings')} />
             <Row icon={<FaQuestionCircle />} label='Help' onClick={() => navigate('/contact')} />
